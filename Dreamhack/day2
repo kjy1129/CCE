@@ -1,1 +1,6 @@
+URL은 웹에 있는 리소스의 위치를 표한하는 문자열이다.
+ULR은 Scheme, Authority (Userinfo, Host, Port), Path, Query, Fragment 등으로 구성.
 
+ex) foo://example.com:8042/over/there?name=ferret#nose
+Scheme: (foo) 웹 서버와 어떤 프로토콜로 통신할지 나타낸다.
+Host
