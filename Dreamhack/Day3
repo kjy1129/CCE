@@ -18,3 +18,25 @@ Sourcemap이란 원본 에셋 파일과 변환된 파일 사이의 매핑 정보
 클라이언트의 IP 주소와 User-Agent는 매번 변경될 수 있는 고유하지 않은 정보이며, HTTP 프로토콜의 Connectionless와 Stateless 측징 때문에 웹 서버는 클라이언트를 기억할 수 없다.
 Connectionless: 하나의 요청에 하나의 응답을 한 후 연결을 종료하는 것.
 Stateless: 통신이 끝난 후 상태 정보를 저장하지 않음.
+이러한 특성으로 HTTP에서 상태를 유지하기 위해 Cookie가 탄생하게됨.
+Cookie는 Key와 Value로 이뤄진 일종의 단위로, 서버가 클라이언트에게 쿠기를 발급하면, 클라이언트는 서버에 요청을 보낼 때 마다 쿠키를 같이 전송함.
+
+웹 통신에서 클라이언트가 쿠키를 변조해 서버에 요청을 보낼 수 있다.
+그렇기에 쿠키에 인증 상태를 저장하지만 클라이언트가 인증 정보를 변조할 수 없게 하기 위해 Session을 사용한다.
+Session 은 인증 정보를 서버에 저장하고 해당 데이터에 접근할 수 있는 Key를 만들어 클라이언트에 전달하는 방식으로 작동한다.
+이러한 Key를 일반적으로 Session ID라고 한다.
+
+Cookie는 클라이언트에 저장되기 때문에 클리이언트는 저장된 쿠키를 조회, 수정, 추가할 수 있다.
+클라이언트가 서버에 요청을 보낼때 저장된 쿠키를 요청 헤더에 넣어 전송하기에 이용자가 요청을 보낼 때 쿠키 헤더를 변조할 수 있다.
+
+-Cookie 설정
+Server: HTTP 응답 중 헤더에 쿠키 설정 헤더 (SEt-Cookie)를 추가하면 클라이언트의 브라우저가 쿠키를 설정함.
+EX)  1. HTTP/1.1 200 OK
+     2. Server: Apache/2.4.29 (Ubuntu)
+     3. Set-Cookie: "name=test;"
+     4. Set-Cookie: age=30; Expires=Fri, 30 sep 2022 14:54:50 GMT;
+
+Client: 자바 스크립트를 사용해 쿠키를 설정함.
+EX)  1. documnet.cookie = "name=test;"
+     2. document.cookie = "age=30; Expires=Fri, 30 sep 2022 14:54:50 GMT;"
+
