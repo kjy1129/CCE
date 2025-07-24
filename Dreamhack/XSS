@@ -52,3 +52,18 @@ Reflected XSS는 서버가 악성 스크립트가 담긴 요청을 출력할때 
 대표적으로 게시판 서비스에서 작성된 게시물을 조회하기 위한 검색항에서 스크립트를 포함해 검색하는 방식이 있다.
 이용자가 게시물을 검색하면 서버는 검색 결과를 이용자에게 반환한다.
 일부 서비스에서는 검색 결과를 응답에 포함하는데, 검색 문자열에 악성 스크립트가 포함되어 있다면 Reflected XSS가 발생할 수 있다.
+
+render_template 함수는 Flask 웹 프레임워크에서 제공하는 함수로, HTML 템플릿 파일을 렌더링한다.
+전달된 템플릿 변수가 기록될 때 HTNL 엔티티코드로 변환해 저장되기 때문에 XSS가 발생되지 않는다.
+즉, 이용자가 입력한 값을 페이지에 그대로 출력하지 않는 것이다.
+EX) @app.route("/vuln")
+    def vuln():
+      return render_template("vuln.html")
+
+하지만
+EX) @app.route("/vuln")
+    def vuln():
+      param = request.args.get("param", "") # 이용자가 입력한 vuln 인자를 가져옴
+      return param # 이용자의 입력값을 화면 상에 표시
+이러한 코드는 이용자가 입력한 값을 페이지에 그대로 출력하기 때문에 XSS 발생 가능.
+
