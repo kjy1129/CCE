@@ -1,1 +1,22 @@
+힌트: Not even Google will find it this time...
+Goole은 웹 크롤러를 가진 검색엔진임.
 
+will not find this
+웹 개발자는 특정 디렉토리나 페이지를 검색엔진이 크롤링하지 않게 하고 싶을 때,
+robots.txt 라는 규칙 파일을 통해 검색엔진 봇에 접근 금지를 알려준다.
+ex) User-agent: *
+    Disallow: /secret-folder/
+
+User-agent: 모든 봇을 의미
+Disallow: /secret-forder/: /secre-folder/ 아래는 들어오지 말것.
+
+즉 Not even Google will find it this time... 라는 문구를 통해 크롤러가 읽지 못하는 파일이 존재 할것이며
+그 파일의 이름은 CTF에서 robots.txt 로 많이 사용.
+
+http://natas3.natas.labs.overthewire.org/robots.txt 접속하면
+User-agent: *
+Disallow: /s3cr3t/
+
+즉 /s3cr3t/ 아래로 크롤링 금지가 됨.
+
+natas4:QryZXc2e0zahULdHrtHxzyYkj59kUxLQ
