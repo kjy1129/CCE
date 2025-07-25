@@ -1,0 +1,8 @@
+natas5 에 접속시 Access disallowed. You are not logged in 문구가 나옴
+즉, 접근이 허용되지 않았으며 로그인이 되지 않았다는 뜻임.
+
+로그인에 대한 정보는 cookies 가 관리함.
+그렇기 때문에 cookies 정보에 들어가면 loggedin은 0으로 저장 되어있음.
+이 loggedin 값을 1로 바꾸면 될것임을 유추 가능.
+
+0RoJwHdSKWFTYR5WuiAewauSuNaBXned
