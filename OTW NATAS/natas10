@@ -1,0 +1,30 @@
+natas10 에 접속하면 natas9 과 같이 입력창과 검색창이 존재함.
+하지만 이번에는 For security reasons, we now filter on certain characters 즉, 필터링 되어 들어가는것을 알 수 있음.
+
+<?
+$key = "";
+
+if(array_key_exists("needle", $_REQUEST)) {
+    $key = $_REQUEST["needle"];
+}
+
+if($key != "") {
+    if(preg_match('/[;|&]/',$key)) {
+        print "Input contains an illegal character!";
+    } else {
+        passthru("grep -i $key dictionary.txt");
+    }
+}
+?>
+
+이 php 코드를 보면 preg_match('/[;|&]/',$key) 가 존재함.
+이 코드는 ;, |, & 를 필터링하여 들어가지 못하게 막고있음
+그렇기에 이번엔 . /etc/natas_webpass/natas11 라고 입력한뒤 검색하면 문제를 풀 수 있음.
+
+즉 grep -i . /etc/natas_webpass/natas11 dictionary.txt 이러한 명령어가 입력됨.
+grep -i 에서 .은 모든 문자를 의미하는 정규식 패턴임.
+그리고 나머지 중 하나의 인자가 /etc/natas_webpass/natas11 가 되어버려 파일 자체가 grep의 대상이 됨.
+따라서 "패턴 '.'(모든 문자)를 포함하는 줄을 /etc/natas_webpass/natas11에서 찾아라" 이러한 의미가 되므로 pw를 찾을 수 있게 됨.
+
+
+UJdqkK1pTu6VLt9UHWAgRZz6sVUZ3lEk
